@@ -1,6 +1,7 @@
 import requests
 import json
 import re
+from spotify_api_miner import get_artist_json
 
 def get_user_choice():
     choice = 0
@@ -22,34 +23,9 @@ def get_user_choice():
 
     return choice
 
-def get_artist_track():
-    welcome_message = """Welcome to the lyrics translation section!
-Before starting please find the song link by following these steps:
-
-Click on the three dots next to the artist's song
-Click on "Share"
-Click on "Copy link"
-Then paste the link here!\n
-    """
-    print(f"{welcome_message}")
-    pattern = r"/\w*?\?"
-    song_link = input("Type the song ID:\n")
-    song_sequence = re.findall(pattern,song_link)
-    pattern_id = r"\w+?\b"
-    song_id = re.findall(pattern_id,song_sequence[0])
-    spotify_api = "https://dit009-spotify-assignment.vercel.app/api/v1/"
-    url = f"{spotify_api}/tracks/{song_id}"
-    response = requests.get(url)
-    song_information = response.json()
-    #with open(f"./{song_id}.json","w") as stored_information:
-    #    json.dump(response,stored_information)
-    #Need to fix this part, write the .json files and store them for later use here.
-
-    #api_website = "https://api.lyrics.ovh/v1"
-    #url = f"{api_website}/{artist}/{song}"
-
-
-    #print(song_lyrics["lyrics"])
+#api_website = "https://api.lyrics.ovh/v1"
+#url = f"{api_website}/{artist}/{song}"
+#print(song_lyrics["lyrics"])
 
 
 def main():
@@ -59,7 +35,14 @@ def main():
         if user_choice == 1:
             print("Thank you for trying the application!")
         elif user_choice == 2:
-            get_artist_track()
+
+            song_id = get_artist_json()
+            with open(f"./{song_id}.json","r") as file:
+                artist_information = json.load(file)
+                artist_name = artist_information["album"]["artists"][0]["name"]
+                song_name = artist_information["name"]
+                print(artist_name,song_name)
+
 
 
 
