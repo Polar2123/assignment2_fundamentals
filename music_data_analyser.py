@@ -1,7 +1,7 @@
 import requests
 import json
 import re
-from spotify_api_miner import get_artist_json, get_id
+from spotify_api_miner import *
 
 def get_user_choice():
     choice = 0
@@ -34,7 +34,6 @@ def main():
             print("Thank you for trying the application!")
         elif user_choice == 2:
             artist_name, song_name = get_artist_json()
-
             get_lyrics(artist_name, song_name)
         elif user_choice == 4:
             artist_link = input("Enter the artist link:\n")
@@ -48,11 +47,6 @@ def get_lyrics(artist,song):
     lyrics = response.json()
     print(lyrics["lyrics"])
 
-def get_similar_artist(link):
-    artist_id = get_id(link)
-    similar_artist_url = f"https://api.spotify.com/v1/artists/{artist_id}/related-artists"
-    response = requests.get(similar_artist_url)
-    similar_artist = response.json()
 
 
 
