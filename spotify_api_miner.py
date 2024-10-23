@@ -12,16 +12,26 @@ Click on "Copy link"
 Then paste the link here!\n
     """
     print(f"{welcome_message}")
-    song_link = input("Type the song ID:\n")
-    pattern = r"/\w*?\?"
-    song_sequence = re.findall(pattern,song_link)
+    song_link = input("Type the song link:\n")
+    song_id = get_id(song_link)
 
-    pattern_id = r"\w+?\b"
-    song_id = re.findall(pattern_id,song_sequence[0])[0]
     spotify_api = "https://dit009-spotify-assignment.vercel.app/api/v1"
     url = f"{spotify_api}/tracks/{song_id}"
     response = requests.get(url)
     song_information = response.json()
-    with open(f"./{song_id}.json","w") as stored_information:
+
+    artist_name = song_information["album"]["artists"][0]["name"]
+    song_name = song_information["name"]
+    file_name = f"./{artist_name} - {song_name}.json"
+
+    with open(file_name,"w") as stored_information:
         json.dump(song_information,stored_information)
-    return song_id
+    return artist_name, song_name
+
+def get_id(link):
+    pattern = r"\/\w*?\?"
+    song_sequence = re.findall(pattern, link)
+
+    pattern_id = r"\w+?\b"
+    spotify_id = re.findall(pattern_id, song_sequence[0])[0]
+    return spotify_id

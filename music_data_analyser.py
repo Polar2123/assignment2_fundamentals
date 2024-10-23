@@ -1,7 +1,7 @@
 import requests
 import json
 import re
-from spotify_api_miner import get_artist_json
+from spotify_api_miner import get_artist_json, get_id
 
 def get_user_choice():
     choice = 0
@@ -10,7 +10,7 @@ def get_user_choice():
                 1. Exit the application
                 2. Compare top 5 songs of an artist
                 3. Translate the lyrics of a song
-                4. something
+                4. Recommend similar artists
                 """
     print(menu_message)
     while choice <= 0 or choice > 4:
@@ -23,9 +23,7 @@ def get_user_choice():
 
     return choice
 
-#api_website = "https://api.lyrics.ovh/v1"
-#url = f"{api_website}/{artist}/{song}"
-#print(song_lyrics["lyrics"])
+
 
 
 def main():
@@ -35,14 +33,26 @@ def main():
         if user_choice == 1:
             print("Thank you for trying the application!")
         elif user_choice == 2:
+            artist_name, song_name = get_artist_json()
 
-            song_id = get_artist_json()
-            with open(f"./{song_id}.json","r") as file:
-                artist_information = json.load(file)
-                artist_name = artist_information["album"]["artists"][0]["name"]
-                song_name = artist_information["name"]
-                print(artist_name,song_name)
+            get_lyrics(artist_name, song_name)
+        elif user_choice == 4:
+            artist_link = input("Enter the artist link:\n")
+            get_similar_artist(artist_link)
 
+
+def get_lyrics(artist,song):
+    api_website = "https://api.lyrics.ovh/v1"
+    url = f"{api_website}/{artist}/{song}"
+    response = requests.get(url)
+    lyrics = response.json()
+    print(lyrics["lyrics"])
+
+def get_similar_artist(link):
+    artist_id = get_id(link)
+    similar_artist_url = f"https://api.spotify.com/v1/artists/{artist_id}/related-artists"
+    response = requests.get(similar_artist_url)
+    similar_artist = response.json()
 
 
 
