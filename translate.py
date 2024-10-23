@@ -8,24 +8,18 @@ with open("lyrics.txt", "r") as file:
 API_KEY = 'AIzaSyAxHjthtr1Sc6InCsfu_k9TcCsZHjuK3FI'
 
 def translate_text(text, target_language, api_key):
-    url = f"https://translation.googleapis.com/language/translate/v2?key={api_key}"
-    
-    data = {
-        'q': text,
-        'target': target_language
-    }
+    url = f"https://translation.googleapis.com/language/translate/v2?key={api_key}&q={text}&target={target_language}"
 
-    response = requests.post(url, data=data)
+    response = requests.post(url)
     
     if response.status_code == 200:
         translated_text = response.json()['data']['translations'][0]['translatedText']
         return translated_text
     else:
-        print(f"Error: {response.status_code} - {response.text}")
-        return None
+        print("Failed")
 
 def user_ask_language():
-    language = input("Enter the language code you want to translate to: ").lower()
+    language = input("Enter the language  you want to translate to: ").lower()
     return language
 def get_languague_code(language):
     if language in files:
@@ -35,10 +29,10 @@ def get_languague_code(language):
 destination_language = user_ask_language()
 target_language_code = get_languague_code(destination_language)
 translated_text = translate_text(text_to_translate, target_language_code, API_KEY)
+formatted_lyrics = f"""
+["Translated Text"]
+{translated_text}
+"""
 
 
-
-if translated_text:
-    print(f"Translated text: {translated_text}")
-else:
-    print("Translation failed.")
+print(formatted_lyrics)
