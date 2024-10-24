@@ -15,7 +15,7 @@ Then paste the link here!\n
     song_link = input("Type the song link:\n")
     song_id = get_id(song_link)
     song_information = get_json(f"tracks/{song_id}")
-    print(song_information)
+
     artist_name = song_information["album"]["artists"][0]["name"]
     song_name = song_information["name"]
     artist_link = song_information["album"]["artists"][0]["external_urls"]["spotify"] + "?"
@@ -38,7 +38,7 @@ def get_similar_artist(link):
     artist_id = get_id(link)
     similar_artist = get_json(f"/artists/{artist_id}/related-artists")
 
-    artist_name = input("Type how you would like to save the data: ")
+    artist_name = input("Type how you would like to save the recommendations: ")
     with open(f"./recommendations/{artist_name}.json","w") as stored_information:
         json.dump(similar_artist,stored_information)
 
