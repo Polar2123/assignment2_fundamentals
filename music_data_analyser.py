@@ -9,18 +9,18 @@ def get_user_choice():
     choice = 0
     menu_message = """Welcome to the Music helper
     Here are your options:
-                1. Exit the application
-                2. Lyric Translation and Artist Recommendation
-                3. Artist Analytics (Top 5, No. of followers etc.)
-                4. YouTube and Spotify comparison
+                1. Lyric Translation and Artist Recommendation
+                2. Artist Analytics (Top 5, No. of followers, Popularity, Compare...)
+                3. YouTube and Spotify comparison
+                4. Exit the application
                 """
 
     print(menu_message)
-    while choice <= 0 or choice > 5:
+    while choice <= 0 or choice > 4:
         try:
             choice = int(input("Enter the number for your option:\n"))
-            if choice <= 0 or choice > 5:
-                print("Please type a number between 1 and 5.\n")
+            if choice <= 0 or choice > 4:
+                print("Please type a number between 1 and 4.\n")
         except ValueError:
             print("The input must be an integer.\n")
 
@@ -83,10 +83,10 @@ def analytics_menu(artist_id):
 
 def main():
     user_choice = 0
-    while user_choice != 1:
+    while user_choice != 4:
         user_choice = get_user_choice()
         if user_choice == 1:
-            print("Thank you for trying the application!")
+            pass
         elif user_choice == 2:
             artist_name, song_name = get_artist_json()
             get_lyrics(artist_name, song_name)
@@ -98,7 +98,7 @@ def main():
             artist_id = get_id(artist_link)
             analytics_menu(artist_id)
         elif user_choice == 4:
-            pass
+            print("Thank you for trying the application!")
 
 def recommend_artists(artist_name):
     with open(f"./recommendations/{artist_name}.json", "r") as file:
