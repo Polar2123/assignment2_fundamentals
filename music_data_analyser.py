@@ -37,15 +37,15 @@ def main():
             get_lyrics(artist_name, song_name)
         elif user_choice == 4:
             artist_link = input("Enter the artist link:\n")
-            get_similar_artist(artist_link)
+            artist_name = get_similar_artist(artist_link)
+            recommend_artists(artist_name)
 
-
-def get_lyrics(artist,song):
-    api_website = "https://api.lyrics.ovh/v1"
-    url = f"{api_website}/{artist}/{song}"
-    response = requests.get(url)
-    lyrics = response.json()
-    print(lyrics["lyrics"])
+def recommend_artists(artist_name):
+    with open(f"./recommendations/{artist_name}.json", "r") as file:
+        artist_name = json.load(file)
+    print("Here are a few artists you might like:\n")
+    for i in range(3):
+        print(f"{artist_name["artists"][i]["name"]}\n")
 
 
 
