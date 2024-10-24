@@ -15,6 +15,7 @@ Then paste the link here!\n
     song_link = input("Type the song link:\n")
     song_id = get_id(song_link)
     song_information = get_json(f"tracks/{song_id}")
+    print(song_information)
     artist_name = song_information["album"]["artists"][0]["name"]
     song_name = song_information["name"]
     file_name = f"./{artist_name} - {song_name}.json"
@@ -49,7 +50,7 @@ def get_lyrics(artist,song):
     print(lyrics["lyrics"])
 
 def get_json(link_extension):
-    root_link = "https://dit009-spotify-assignment.vercel.app/api/v1/artists/"
+    root_link = "https://dit009-spotify-assignment.vercel.app/api/v1/"
     full_link = root_link + link_extension
     response = requests.get(full_link)
     json_file = response.json()

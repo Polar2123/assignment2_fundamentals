@@ -2,6 +2,8 @@ import requests
 import json
 import re
 from spotify_api_miner import *
+from barchart import *
+
 
 def get_user_choice():
     choice = 0
@@ -88,14 +90,15 @@ def main():
         elif user_choice == 2:
             artist_name, song_name = get_artist_json()
             get_lyrics(artist_name, song_name)
+            artist_link = input("Enter the artist link:\n")
+            artist_name = get_similar_artist(artist_link)
+            recommend_artists(artist_name)
         elif user_choice == 3:
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)
             analytics_menu(artist_id)
-        elif user_choice == 5:
-            artist_link = input("Enter the artist link:\n")
-            artist_name = get_similar_artist(artist_link)
-            recommend_artists(artist_name)
+        elif user_choice == 4:
+            pass
 
 def recommend_artists(artist_name):
     with open(f"./recommendations/{artist_name}.json", "r") as file:
