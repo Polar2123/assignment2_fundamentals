@@ -9,20 +9,14 @@ def main():
     while user_choice != 4:
         user_choice = get_user_choice()
         local_files = input("Do you wish to use local files? y/n?")
-        lyrics_recommendation = input("Type the number for the option you want\n1.Lyrics Translation\n2.Artist Recommendations")
         if user_choice == 1:
-
+            lyrics_recommendation = input("Type the number for the option you want\n1.Lyrics Translation\n2.Artist Recommendations")
             if local_files == "n":
-
                 recommend_live()
-
             elif local_files == "y":
-
                 recommend_local()
-
             else:
-
-                input("Please type y/n, you will now be sent back to the menu.")
+                input("You must type \"y\" or \"n\". Type anything to go back to the menu.")
 
 
         elif user_choice == 2:
