@@ -8,11 +8,11 @@ def get_user_choice():
     menu_message = """Welcome to the Music helper
     Here are your options:
                 1. Exit the application
-                2. Compare top 5 songs of an artist
+                2. Lyric Translation and Artist Recommendation
                 3. Artist Analytics (Top 5, No. of followers etc.)
-                4. Translate the lyrics of a song
-                5. Recommend similar artists
+                4. YouTube and Spotify comparison
                 """
+
     print(menu_message)
     while choice <= 0 or choice > 5:
         try:
@@ -73,13 +73,11 @@ def analytics_menu(artist_id):
                 second_artist_link = input("Enter the other artist's Spotify link: ")
                 other_artist_id = get_id(second_artist_link)
                 compare_artists(artist_id, other_artist_id)
-
             else:
                 print("Invalid choice. Please pick between 1 and 4.")
                 
         except ValueError:
             print("Invalid input. Please enter an integer.")
-
 
 def main():
     user_choice = 0
@@ -105,9 +103,6 @@ def recommend_artists(artist_name):
     print("Here are a few artists you might like:\n")
     for i in range(3):
         print(f"{artist_name["artists"][i]["name"]}\n")
-
-
-
 
 if __name__ == "__main__":
     main()
