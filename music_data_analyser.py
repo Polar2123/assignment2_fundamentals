@@ -72,9 +72,9 @@ def analytics_menu(artist_id):
 
             elif choice == 4:
                 print("\nCompare with another artist...\n")
-                second_artist_link = input("Enter the other artist's Spotify link: ")
-                other_artist_id = get_id(second_artist_link)
-                compare_artists(artist_id, other_artist_id)
+                artist_name = input("Enter the other artist's name: ")
+                other_artist_id = get_artist_sp(artist_name)
+                youtube_vs_spotify(artist_name)
             else:
                 print("Invalid choice. Please pick between 1 and 4.")
                 
