@@ -125,13 +125,3 @@ def youtube_vs_spotify(artist_name):
 
 artist_name = input("Which artist do you want to compare: ")
 youtube_vs_spotify(artist_name)
-
-
-
-
-
-
-
-
-
-
