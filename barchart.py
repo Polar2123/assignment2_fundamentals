@@ -85,7 +85,7 @@ def get_youtube_popularity(youtube_list):
     popularity = view_score + sub_score
     if popularity > 100:
         popularity = 100
-    print(popularity)
+    
     return popularity
 #analyze
 def youtube_vs_spotify(artist_name):
