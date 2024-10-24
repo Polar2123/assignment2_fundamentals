@@ -18,11 +18,13 @@ Then paste the link here!\n
     print(song_information)
     artist_name = song_information["album"]["artists"][0]["name"]
     song_name = song_information["name"]
+    artist_link = song_information["album"]["artists"][0]["external_urls"]["spotify"] + "?"
     file_name = f"./{artist_name} - {song_name}.json"
 
     with open(file_name,"w") as stored_information:
         json.dump(song_information,stored_information)
-    return artist_name, song_name
+
+    return artist_name, song_name, artist_link
 
 def get_id(link):
     pattern = r"\/\w*?\?"
@@ -34,7 +36,7 @@ def get_id(link):
 
 def get_similar_artist(link):
     artist_id = get_id(link)
-    similar_artist = get_json(f"{artist_id}/related-artists")
+    similar_artist = get_json(f"/artists/{artist_id}/related-artists")
 
     artist_name = input("Type how you would like to save the data: ")
     with open(f"./recommendations/{artist_name}.json","w") as stored_information:
@@ -47,7 +49,6 @@ def get_lyrics(artist,song):
     url = f"{api_website}/{artist}/{song}"
     response = requests.get(url)
     lyrics = response.json()
-    print(lyrics["lyrics"])
 
 def get_json(link_extension):
     root_link = "https://dit009-spotify-assignment.vercel.app/api/v1/"

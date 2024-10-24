@@ -84,19 +84,28 @@ def analytics_menu(artist_id):
 def main():
     user_choice = 0
     while user_choice != 1:
+
         user_choice = get_user_choice()
         if user_choice == 1:
             print("Thank you for trying the application!")
+
         elif user_choice == 2:
-            artist_name, song_name = get_artist_json()
+
+
+            artist_name, song_name, artist_link = get_artist_json()
             get_lyrics(artist_name, song_name)
-            artist_link = input("Enter the artist link:\n")
+
+
+
             artist_name = get_similar_artist(artist_link)
             recommend_artists(artist_name)
+
         elif user_choice == 3:
+
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)
             analytics_menu(artist_id)
+
         elif user_choice == 4:
             pass
 
