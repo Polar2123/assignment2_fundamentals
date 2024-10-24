@@ -37,7 +37,6 @@ def get_id(link):
 def get_similar_artist(link):
     artist_id = get_id(link)
     similar_artist = get_json(f"/artists/{artist_id}/related-artists")
-
     artist_name = input("Type how you would like to save the recommendations: ")
     with open(f"./recommendations/{artist_name}.json","w") as stored_information:
         json.dump(similar_artist,stored_information)
