@@ -30,6 +30,7 @@ def get_id(link):
     spotify_id = re.findall(pattern_id, song_sequence[0])[0]
     return spotify_id
 
+
 def get_similar_artist(link):
     artist_id = get_id(link)
     similar_artist = get_json(f"{artist_id}/related-artists")
@@ -52,3 +53,42 @@ def get_json(link_extension):
     response = requests.get(full_link)
     json_file = response.json()
     return json_file
+
+
+def artist_info(artist_id):
+    artist_url = f"https://dit009-spotify-assignment.vercel.app/api/v1/artists/{artist_id}"
+    response = requests.get(artist_url)
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error fetching artist info: {response.status_code}")
+        return {}
+    
+def compare_artists(artist_1_id, artist_2_id):
+    artist_1_info = artist_info(artist_1_id)
+    artist_2_info = artist_info(artist_2_id)
+
+    if not artist_1_info or not artist_2_info:
+        print("Unable to fetch comparison data.")
+        return
+
+    print(f"\nComparison between {artist_1_info['name']} and {artist_2_info['name']}:")
+
+    artist_1_followers = artist_1_info.get("followers", {}).get("total", 0)
+    artist_2_followers = artist_2_info.get("followers", {}).get("total", 0)
+    print(f"Followers:\n{artist_1_info['name']}: {artist_1_followers:,}\n{artist_2_info['name']}: {artist_2_followers:,}")
+
+    artist_1_popularity = artist_1_info.get("popularity", 0)
+    artist_2_popularity = artist_2_info.get("popularity", 0)
+    print(f"Popularity:\n{artist_1_info['name']}: {artist_1_popularity}\n{artist_2_info['name']}: {artist_2_popularity}")    
+
+def artist_top_tracks(artist_id):
+    top_tracks_url = f"https://dit009-spotify-assignment.vercel.app/api/v1/artists/{artist_id}/top-tracks"
+    response = requests.get(top_tracks_url)
+
+    if response.status_code == 200:
+        return response.json().get("tracks", [])
+    else:
+        print(f"Error fetching top tracks: {response.status_code}")
+        return []
