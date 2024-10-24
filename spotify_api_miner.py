@@ -55,22 +55,26 @@ def get_lyrics(artist,song):
     return lyrics["lyrics"]
 
 def get_json(link_extension):
-    root_link = "https://dit009-spotify-assignment.vercel.app/api/v1/"
-    full_link = root_link + link_extension
-    response = requests.get(full_link)
-    json_file = response.json()
-    return json_file
+    try:
+        root_link = "https://dit009-spotify-assignment.vercel.app/api/v1/"
+        full_link = root_link + link_extension
+        response = requests.get(full_link)
+        response.raise_for_status()
+        json_file = response.json()
+        return json_file
+    except requests.exceptions.RequestException as error:
+        print(error)
 
 
 def artist_info(artist_id):
-    artist_url = f"https://dit009-spotify-assignment.vercel.app/api/v1/artists/{artist_id}"
-    response = requests.get(artist_url)
-
-    if response.status_code == 200:
+    try:
+        artist_url = f"https://dit009-spotify-assignment.vercel.app/api/v1/artists/{artist_id}"
+        response = requests.get(artist_url)
+        response.raise_for_status()
         return response.json()
-    else:
-        print(f"Error fetching artist info: {response.status_code}")
-        return {}
+        
+    except requests.exceptions.RequestException as error:
+        print(error)
     
 def compare_artists(artist_1_id, artist_2_id):
     artist_1_info = artist_info(artist_1_id)
@@ -91,11 +95,12 @@ def compare_artists(artist_1_id, artist_2_id):
     print(f"Popularity:\n{artist_1_info['name']}: {artist_1_popularity}\n{artist_2_info['name']}: {artist_2_popularity}")    
 
 def artist_top_tracks(artist_id):
-    top_tracks_url = f"https://dit009-spotify-assignment.vercel.app/api/v1/artists/{artist_id}/top-tracks"
-    response = requests.get(top_tracks_url)
-
-    if response.status_code == 200:
+    try:
+        top_tracks_url = f"https://dit009-spotify-assignment.vercel.app/api/v1/artists/{artist_id}/top-tracks"
+        response = requests.get(top_tracks_url)
+        response.raise_for_status()
+        
         return response.json().get("tracks", [])
-    else:
-        print(f"Error fetching top tracks: {response.status_code}")
-        return []
+        
+    except requests.exceptions.RequestException as error:
+        print(error)

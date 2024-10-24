@@ -7,6 +7,7 @@ from translate import *
 
 def main():
     user_choice = 0
+
     while user_choice != 4:
         user_choice = get_user_choice()
         if user_choice != 4:
@@ -33,9 +34,14 @@ def main():
                     with open("./lyrics_library/all_lyrics.txt","r") as lyrics_file:
                         print("Here are your options!\n")
                         print(lyrics_file.read())
+                        destination_language = user_ask_language()
+                        target_language_code = get_language_code(destination_language)
+                        translated_text = translate_text(text_to_translate, target_language_code)
 
                         wanted_lyrics = input("Write the name of the file you wish to see, make sure to write it correctly. Do not include the file type\n")
                         try:
+                            with open(f"./lyrics_library/{wanted_lyrics}.txt", "w") as user_lyrics:
+                                user_lyrics.write(translated_text)
                             with open(f"./lyrics_library/{wanted_lyrics}.txt", "r") as user_lyrics:
                                 print("Here are your translated lyrics:\n")
                                 print(user_lyrics.read())
@@ -62,6 +68,9 @@ def main():
                 artist_name = input("Enter the other artist's name: ")
                 get_new_data(artist_name)
                 youtube_vs_spotify()
+            else:
+                input("You must type \"y\" or \"n\". Type anything to go back to the menu.")
+
         elif user_choice == 3:
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)

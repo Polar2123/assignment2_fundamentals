@@ -7,31 +7,28 @@ API_KEY = "AIzaSyAxHjthtr1Sc6InCsfu_k9TcCsZHjuK3FI"
 #youtube api miner
 def get_id_yt(artist_name, api_key):
     url = f"https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q={artist_name}&key={api_key}"
-    response = requests.get(url)
-    
-    if response.status_code == 200:
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
         data = response.json()
-
         artist_id = data['items'][0]['id']['channelId']
         return artist_id
-    else:
-        print(f"Error: {response.status_code} - {response.text}")
-        return None
+        
+    except requests.exceptions.RequestException as error:
+        print(error)
+        
 #youtube api miner
 def get_channel_info_yt(artist_name,api_key):
     artist_id = get_id_yt(artist_name,api_key)
     url = f"https://youtube.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&id={artist_id}&key={api_key}"
+    try:
+        response = requests.get(url)
     
-    response = requests.get(url)
-    
-    if response.status_code == 200:
         data = response.json()
         with open('youtube_channel.json', 'w') as file:
             json.dump(data, file)
-    else:
-        print(f"Error: {response.status_code} - {response.text}")
-        return None
-
+    except requests.exceptions.RequestException as error:
+            print(error)
 #spotify api miner
 def get_names(artist_name):
     names=[]
