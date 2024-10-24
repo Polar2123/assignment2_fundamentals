@@ -10,8 +10,8 @@ def get_user_choice():
     menu_message = """Welcome to the Music helper
     Here are your options:
                 1. Lyric Translation and Artist Recommendation
-                2. Artist Analytics (Top 5, No. of followers, Popularity, Compare...)
-                3. YouTube and Spotify comparison
+                2. YouTube and Spotify comparison
+                3. Artist Analytics (Top 5, No. of followers, Popularity, Compare...)
                 4. Exit the application
                 """
 
@@ -38,6 +38,7 @@ def analytics_menu(artist_id):
                 2: No. of followers
                 3: Popularity (1-100)
                 4: Compare with Another Artist
+                5: Back to main menu
 
                 Enter your choice: """))
             
@@ -51,6 +52,7 @@ def analytics_menu(artist_id):
                         print(f"{index}. {track_name} (Popularity: {popularity})")
                 else:
                     print("No top tracks found.")
+                print()
 
             elif choice == 2:
                 print("\nDisplaying total number of followers...\n")
@@ -69,14 +71,20 @@ def analytics_menu(artist_id):
                     print(f"Artist popularity: {popularity}")
                 else:
                     print("Unable to retrieve artist's popuplarity information.")
+                print()
 
             elif choice == 4:
                 print("\nCompare with another artist...\n")
-                artist_name = input("Enter the other artist's name: ")
-                other_artist_id = get_artist_sp(artist_name)
-                youtube_vs_spotify(artist_name)
+                second_artist_link = input("Enter the other artist's Spotify link: ")
+                other_artist_id = get_id(second_artist_link)
+                compare_artists(artist_id, other_artist_id)
+                print()
+            elif choice == 5:
+                return
             else:
                 print("Invalid choice. Please pick between 1 and 4.")
+
+                
                 
         except ValueError:
             print("Invalid input. Please enter an integer.")
