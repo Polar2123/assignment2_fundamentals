@@ -3,9 +3,8 @@ import json
 import requests
 
 def get_artist_json():
-    welcome_message = """Welcome to the lyrics translation section!
-Before starting please find the song link by following these steps:
-
+    welcome_message = """To continue, please enter the link of the song;
+    
 Click on the three dots next to the artist's song
 Click on "Share"
 Click on "Copy link"
@@ -48,6 +47,12 @@ def get_lyrics(artist,song):
     url = f"{api_website}/{artist}/{song}"
     response = requests.get(url)
     lyrics = response.json()
+
+    with open(f"./lyrics_library/all_lyrics.txt","a") as file:
+        file.write(f"{artist.capitalize()}-{song.capitalize()}.txt\n")
+    with open(f"./lyrics_library/{artist.capitalize()}-{song.capitalize()}.txt","w") as file:
+        file.write("Translated lyrics:\n")
+    return lyrics["lyrics"]
 
 def get_json(link_extension):
     root_link = "https://dit009-spotify-assignment.vercel.app/api/v1/"
