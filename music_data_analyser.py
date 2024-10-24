@@ -9,18 +9,18 @@ def get_user_choice():
     choice = 0
     menu_message = """Welcome to the Music helper
     Here are your options:
-                1. Exit the application
-                2. Lyric Translation and Artist Recommendation
-                3. Artist Analytics (Top 5, No. of followers etc.)
-                4. YouTube and Spotify comparison
+                1. Lyric Translation and Artist Recommendation
+                2. YouTube and Spotify comparison
+                3. Artist Analytics (Top 5, No. of followers, Popularity, Compare...)
+                4. Exit the application
                 """
 
     print(menu_message)
-    while choice <= 0 or choice > 5:
+    while choice <= 0 or choice > 4:
         try:
             choice = int(input("Enter the number for your option:\n"))
-            if choice <= 0 or choice > 5:
-                print("Please type a number between 1 and 5.\n")
+            if choice <= 0 or choice > 4:
+                print("Please type a number between 1 and 4.\n")
         except ValueError:
             print("The input must be an integer.\n")
 
@@ -38,11 +38,11 @@ def analytics_menu(artist_id):
                 2: No. of followers
                 3: Popularity (1-100)
                 4: Compare with Another Artist
+                5: Back to main menu
 
                 Enter your choice: """))
             
             if choice == 1:
-
                 print("\nDisplaying top 5 most-listened (by popularity) songs...\n")
                 top_tracks = artist_top_tracks(artist_id)
                 if top_tracks:
@@ -52,6 +52,7 @@ def analytics_menu(artist_id):
                         print(f"{index}. {track_name} (Popularity: {popularity})")
                 else:
                     print("No top tracks found.")
+                print()
 
             elif choice == 2:
                 print("\nDisplaying total number of followers...\n")
@@ -70,40 +71,39 @@ def analytics_menu(artist_id):
                     print(f"Artist popularity: {popularity}")
                 else:
                     print("Unable to retrieve artist's popuplarity information.")
+                print()
 
             elif choice == 4:
                 print("\nCompare with another artist...\n")
                 second_artist_link = input("Enter the other artist's Spotify link: ")
                 other_artist_id = get_id(second_artist_link)
                 compare_artists(artist_id, other_artist_id)
+                print()
+            elif choice == 5:
+                return
             else:
                 print("Invalid choice. Please pick between 1 and 4.")
+
+                
                 
         except ValueError:
             print("Invalid input. Please enter an integer.")
 
 def main():
     user_choice = 0
-    while user_choice != 1:
+    while user_choice != 4:
         user_choice = get_user_choice()
         if user_choice == 1:
-            print("Thank you for trying the application!")
+            pass
         elif user_choice == 2:
-
-            artist_name, song_name, artist_link = get_artist_json()
-            get_lyrics(artist_name, song_name)
-
-            artist_name = get_similar_artist(artist_link)
-            recommend_artists(artist_name)
-
+            artist_name = input("Enter the other artist's name: ")
+            youtube_vs_spotify(artist_name)
         elif user_choice == 3:
-
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)
             analytics_menu(artist_id)
-
         elif user_choice == 4:
-            pass
+            print("Thank you for trying the application!")
 
 def recommend_artists(artist_name):
     with open(f"./recommendations/{artist_name}.json", "r") as file:
