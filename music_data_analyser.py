@@ -96,11 +96,8 @@ def main():
         if user_choice == 1:
             pass
         elif user_choice == 2:
-            artist_name, song_name = get_artist_json()
-            get_lyrics(artist_name, song_name)
-            artist_link = input("Enter the artist link:\n")
-            artist_name = get_similar_artist(artist_link)
-            recommend_artists(artist_name)
+            artist_name = input("Enter the other artist's name: ")
+            youtube_vs_spotify(artist_name)
         elif user_choice == 3:
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)
