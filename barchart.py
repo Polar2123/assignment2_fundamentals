@@ -74,7 +74,7 @@ def analyze_youtube():
 
         return viewCount, subCount
 
-
+#analyze
 def get_youtube_popularity(youtube_list):
     viewCount=youtube_list[0]
     subCount = youtube_list[1]

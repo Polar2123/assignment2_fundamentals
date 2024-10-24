@@ -29,10 +29,8 @@ def get_languague_code(language):
 destination_language = user_ask_language()
 target_language_code = get_languague_code(destination_language)
 translated_text = translate_text(text_to_translate, target_language_code, API_KEY)
-formatted_lyrics = f"""
-["Translated Text"]
-{translated_text}
-"""
+formatted_lyrics = "\n".join(translated_text.split('. '))
+
 
 
 print(formatted_lyrics)
