@@ -32,7 +32,6 @@ def get_channel_info_yt(artist_name,api_key):
         print(f"Error: {response.status_code} - {response.text}")
         return None
 
-base_url = 'https://dit009-spotify-assignment.vercel.app/api/v1/'
 #spotify api miner
 def get_names(artist_name):
     names=[]
@@ -71,8 +70,9 @@ def analyze_youtube():
         data=json.load(file)
         viewCount = int(data['items'][0]['statistics']['viewCount'])
         subCount = int(data['items'][0]['statistics']['subscriberCount'])
-
-        return viewCount, subCount
+        artist_name = data['items'][0]['snippet']['title']
+        youtube= [viewCount, subCount]
+        return youtube, artist_name
 
 #analyze
 def get_youtube_popularity(youtube_list):
@@ -87,22 +87,22 @@ def get_youtube_popularity(youtube_list):
         popularity = 100
     
     return popularity
-#analyze
-def youtube_vs_spotify(artist_name):
+def get_new_data(artist_name):
     get_channel_info_yt(artist_name,API_KEY)
     get_artist_sp(artist_name)
+#analyze
+def youtube_vs_spotify():
     spotify=analyze_spotify()
-    youtube = analyze_youtube()
+    youtube_list, artist_name = analyze_youtube()
     spotify_list = list(spotify)
-    youtube_list = list(youtube)
     followers_spotify = spotify_list[0] / 1000000  
     followers_youtube = youtube_list[1] / 1000000
     followers = [followers_spotify, followers_youtube]
-    print("spotify",followers_spotify, "youtube",followers_youtube)
     popularity_yt=get_youtube_popularity(youtube_list)
     popularity = [spotify_list[1],popularity_yt]
     text = ['Spotify', 'Youtube']
     fig, (ax1, ax2) = plt.subplots(1,2)
+    plt.suptitle(artist_name)
 
     bar_labels = ['Spotify', 'Youtube']
     bar_colors = ['tab:green', 'tab:red']

@@ -56,8 +56,12 @@ def main():
 
 
         elif user_choice == 2:
-            artist_name = input("Enter the other artist's name: ")
-            youtube_vs_spotify(artist_name)
+            if  local_files == 'y':
+                youtube_vs_spotify()
+            elif local_files == 'n':
+                artist_name = input("Enter the other artist's name: ")
+                get_new_data(artist_name)
+                youtube_vs_spotify()
         elif user_choice == 3:
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)
@@ -165,8 +169,8 @@ def get_artist_recommendation(artist_name):
     with open(f"./recommendations/{artist_name}.txt","w")as recommendations:
 
         for i in range(3):
-            recommendations.write(f"{recommended_artists["artists"][i]["name"]}\n")
-            print(f"{recommended_artists["artists"][i]["name"]}\n")
+            recommendations.write(f'{recommended_artists["artists"][i]["name"]}\n')
+            print(f'{recommended_artists["artists"][i]["name"]}\n')
 
     with open(f"./recommendations/all_recommendations.txt", "a") as recommended_artists:
         recommended_artists.write(f"{artist_name}.txt\n")
