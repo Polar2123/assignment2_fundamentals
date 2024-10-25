@@ -10,7 +10,7 @@ def main():
 
     while user_choice != 4:
         user_choice = get_user_choice()
-        if user_choice != 4:
+        if user_choice != 4 or user_choice != 3:
             local_files = input("Do you wish to use local files? y/n?")
         if user_choice == 1:
             lyrics_recommendation = input("Type the number for the option you want\n1.Lyrics Translation\n2.Artist Recommendations")
@@ -27,7 +27,9 @@ def main():
                 elif local_files == "y":
                     recommend_local()
                 else:
-                    input("You must type \"y\" or \"n\". Type anything to go back to the menu.")
+                    input("You must type \"y\" or \"n\". Type anything to go back to the menu.\n")
+            else:
+                input("You must type 1 or 2\n")
         elif user_choice == 2:
             if  local_files == 'y':
                 youtube_vs_spotify()
@@ -122,6 +124,7 @@ def analytics_menu(artist_id):
                 second_artist_link = input("Enter the other artist's Spotify link: ")
                 other_artist_id = get_id(second_artist_link)
                 compare_artists(artist_id, other_artist_id)
+
                 print()
             elif choice == 5:
                 return

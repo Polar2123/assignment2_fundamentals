@@ -1,6 +1,7 @@
 import re
 import json
 import requests
+import matplotlib.pyplot as plt
 
 def get_artist_json():
     welcome_message = """To continue, please enter the link of the song;
@@ -17,7 +18,7 @@ Then paste the link here!\n
 
     artist_name = song_information["album"]["artists"][0]["name"]
     song_name = song_information["name"]
-    artist_link = song_information["album"]["artists"][0]["external_urls"]["spotify"] + "?"
+    artist_link = song_information["album"]["artists"][0]["external_urls"]["spotify"] + "?" # This ? is added to use the RegEx function on it
     file_name = f"./{artist_name} - {song_name}.json"
 
     with open(file_name,"w") as stored_information:
@@ -92,7 +93,26 @@ def compare_artists(artist_1_id, artist_2_id):
 
     artist_1_popularity = artist_1_info.get("popularity", 0)
     artist_2_popularity = artist_2_info.get("popularity", 0)
-    print(f"Popularity:\n{artist_1_info['name']}: {artist_1_popularity}\n{artist_2_info['name']}: {artist_2_popularity}")    
+    print(f"Popularity:\n{artist_1_info['name']}: {artist_1_popularity}\n{artist_2_info['name']}: {artist_2_popularity}")
+
+    fig, ax = plt.subplots()
+
+
+    artist_names = [artist_1_info["name"],artist_2_info["name"]]
+    follower_counts = [artist_1_followers,artist_2_followers]
+    bar_labels = [artist_1_info["name"],artist_2_info["name"]]
+    bar_colors = ['tab:red', 'tab:blue']
+
+    ax.bar(artist_names, follower_counts, label=bar_labels, color=bar_colors)
+
+    ax.set_ylabel('Followers')
+    ax.set_title('Follower comparison')
+    ax.legend(title='Follower comparison')
+
+    plt.show()
+
+
+
 
 def artist_top_tracks(artist_id):
     try:
