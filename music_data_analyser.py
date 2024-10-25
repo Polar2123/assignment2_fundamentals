@@ -180,7 +180,7 @@ def translate_local():
     with open("./lyrics_library/all_lyrics.txt", "r") as lyrics_file:
         print("Here are your options!\n")
         print(lyrics_file.read())
-        destination_language = user_ask_language()
+        destination_language = ask_user_language()
         target_language_code = get_language_code(destination_language)
         translated_text = translate_text(text_to_translate, target_language_code)
 
@@ -199,7 +199,7 @@ def translate_local():
 def translate_live():
     artist_name, song_name, artist_link = get_artist_json()
     lyrics = get_lyrics(artist_name, song_name)
-    destination_language = user_ask_language()
+    destination_language = ask_user_language()
     target_language_code = get_language_code(destination_language)
     translated_text = translate_text(text_to_translate, target_language_code)
     with open(f"./lyrics_library/{artist_name.capitalize()}-{song_name.capitalize()}.txt", "w") as translated_lyrics:

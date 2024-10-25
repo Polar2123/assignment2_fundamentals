@@ -20,7 +20,7 @@ def translate_text(text, target_language):
     except requests.exceptions.RequestException as error:
         print(error)
 
-def user_ask_language():
+def ask_user_language():
     language = input("Enter the language  you want to translate to: ").lower()
     return language
 def get_language_code(language):
