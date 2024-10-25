@@ -1,6 +1,7 @@
 import re
 import json
 import requests
+import matplotlib.pyplot as plt
 
 def get_artist_json():
     welcome_message = """To continue, please enter the link of the song;
@@ -92,7 +93,20 @@ def fetch_artists_comparison(artist_1_id, artist_2_id):
 
     artist_1_popularity = artist_1_info.get("popularity", 0)
     artist_2_popularity = artist_2_info.get("popularity", 0)
-    print(f"Popularity:\n{artist_1_info['name']}: {artist_1_popularity}\n{artist_2_info['name']}: {artist_2_popularity}")    
+    print(f"Popularity:\n{artist_1_info['name']}: {artist_1_popularity}\n{artist_2_info['name']}: {artist_2_popularity}")
+
+
+    fig, ax = plt.subplots()
+    artist_names = [artist_1_info["name"], artist_2_info["name"]]
+    follower_counts = [artist_1_followers, artist_2_followers]
+    bar_labels = [artist_1_info["name"], artist_2_info["name"]]
+    bar_colors = ['tab:red', 'tab:blue']
+    ax.bar(artist_names, follower_counts, label=bar_labels, color=bar_colors)
+    ax.set_ylabel('Followers')
+    ax.set_title('Follower comparison')
+    ax.legend(title='Follower comparison')
+    plt.show()
+
 
 def fetch_artist_top_tracks(artist_id):
     try:
