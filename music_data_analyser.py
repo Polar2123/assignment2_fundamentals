@@ -155,11 +155,14 @@ def get_artist_recommendation(artist_name):
 
 
 def recommend_live():
-    artist_name, song_name, artist_link = get_artist_json()
-    lyrics = get_lyrics(artist_name, song_name)
-    artists = get_similar_artist(artist_link)
-    get_artist_recommendation(artists)
-    input("Type anything when you are ready to go back to the menu.")
+    try:
+        artist_name, song_name, artist_link = get_artist_json()
+        lyrics = get_lyrics(artist_name, song_name)
+        artists = get_similar_artist(artist_link)
+        get_artist_recommendation(artists)
+        input("Type anything when you are ready to go back to the menu.")
+    except IndexError:
+        print("Artist not found")
 
 def recommend_local():
     print("Here are the artists we have song recommendations for:")
@@ -200,17 +203,20 @@ def translate_local():
             input("Cannot find the file, make sure you wrote it correctly. You will be sent back to the menu.")
 
 def translate_live():
-    artist_name, song_name, artist_link = get_artist_json()
-    lyrics = get_lyrics(artist_name, song_name)
-    destination_language = ask_user_language()
-    target_language_code = get_language_code(destination_language)
-    translated_text = translate_text(text_to_translate, target_language_code)
-    with open(f"./lyrics_library/{artist_name.capitalize()}-{song_name.capitalize()}.txt", "w") as translated_lyrics:
-        json.dump(translated_text, translated_lyrics)
+    try:
+        artist_name, song_name, artist_link = get_artist_json()
+        lyrics = get_lyrics(artist_name, song_name)
+        destination_language = ask_user_language()
+        target_language_code = get_language_code(destination_language)
+        translated_text = translate_text(text_to_translate, target_language_code)
+        with open(f"./lyrics_library/{artist_name.capitalize()}-{song_name.capitalize()}.txt", "w") as translated_lyrics:
+            json.dump(translated_text, translated_lyrics)
 
-    print(f"Here are your translated lyrics!\n{translated_text}")
+        print(f"Here are your translated lyrics!\n{translated_text}")
 
-    input("Type anything when you are done\n")
+        input("Type anything when you are done\n")
+    except IndexError:
+        print("Lyrics not found")
 
 if __name__ == "__main__":
     main()
