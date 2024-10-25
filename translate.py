@@ -3,21 +3,22 @@ import json
 
 with open("language_code.json", "r") as files:
     files = json.load(files)
-with open("lyrics.txt", "r") as file:
+with open("./lyrics_library/all_lyrics.txt", "r") as file:
     text_to_translate = file.read()
 
 
 def translate_text(text, target_language):
     api_key = 'AIzaSyAxHjthtr1Sc6InCsfu_k9TcCsZHjuK3FI'
-    url = f"https://translation.googleapis.com/language/translate/v2?key={api_key}&q={text}&target={target_language}"
+    try:
+        url = f"https://translation.googleapis.com/language/translate/v2?key={api_key}&q={text}&target={target_language}"
 
-    response = requests.post(url)
-    
-    if response.status_code == 200:
+        response = requests.post(url)
+        response.raise_for_status()
+        
         translated_text = response.json()['data']['translations'][0]['translatedText']
         return translated_text
-    else:
-        print("Failed")
+    except requests.exceptions.RequestException as error:
+        print(error)
 
 def user_ask_language():
     language = input("Enter the language  you want to translate to: ").lower()
