@@ -16,42 +16,11 @@ def main():
             lyrics_recommendation = input("Type the number for the option you want\n1.Lyrics Translation\n2.Artist Recommendations")
             if lyrics_recommendation == "1":
                 if local_files == "n":
-
-                    artist_name, song_name, artist_link = get_artist_json()
-                    lyrics = get_lyrics(artist_name,song_name)
-                    destination_language = user_ask_language()
-                    target_language_code = get_language_code(destination_language)
-                    translated_text = translate_text(text_to_translate, target_language_code)
-                    with open(f"./lyrics_library/{artist_name.capitalize()}-{song_name.capitalize()}.txt","w") as translated_lyrics:
-                        json.dump(translated_text,translated_lyrics)
-
-                    print(f"Here are your translated lyrics!\n{translated_text}")
-
-
-                    input("Type anything when you are done\n")
-
+                   translate_live()
                 elif local_files == "y":
-                    with open("./lyrics_library/all_lyrics.txt","r") as lyrics_file:
-                        print("Here are your options!\n")
-                        print(lyrics_file.read())
-                        destination_language = user_ask_language()
-                        target_language_code = get_language_code(destination_language)
-                        translated_text = translate_text(text_to_translate, target_language_code)
-
-                        wanted_lyrics = input("Write the name of the file you wish to see, make sure to write it correctly. Do not include the file type\n")
-                        try:
-                            with open(f"./lyrics_library/{wanted_lyrics}.txt", "w") as user_lyrics:
-                                user_lyrics.write(translated_text)
-                            with open(f"./lyrics_library/{wanted_lyrics}.txt", "r") as user_lyrics:
-                                print("Here are your translated lyrics:\n")
-                                print(user_lyrics.read())
-                            input("Type anything when you are ready to go back to the menu.\n")
-                        except FileNotFoundError:
-                            input("Cannot find the file, make sure you wrote it correctly. You will be sent back to the menu.")
-
+                    translate_local()
                 else:
                     input("You must type \"y\" or \"n\". Type anything to go back to the menu.")
-
             elif lyrics_recommendation == "2":
                 if local_files == "n":
                     recommend_live()
@@ -59,8 +28,6 @@ def main():
                     recommend_local()
                 else:
                     input("You must type \"y\" or \"n\". Type anything to go back to the menu.")
-
-
         elif user_choice == 2:
             if  local_files == 'y':
                 youtube_vs_spotify()
@@ -70,7 +37,6 @@ def main():
                 youtube_vs_spotify()
             else:
                 input("You must type \"y\" or \"n\". Type anything to go back to the menu.")
-
         elif user_choice == 3:
             artist_link = input("Enter the artist's Spotify link:\n")
             artist_id = get_id(artist_link)
@@ -210,6 +176,38 @@ def recommend_local():
 
         input("It seems like you typed it incorrectly. Type anything when you are ready to go back to the menu.")
 
+def translate_local():
+    with open("./lyrics_library/all_lyrics.txt", "r") as lyrics_file:
+        print("Here are your options!\n")
+        print(lyrics_file.read())
+        destination_language = user_ask_language()
+        target_language_code = get_language_code(destination_language)
+        translated_text = translate_text(text_to_translate, target_language_code)
+
+        wanted_lyrics = input(
+            "Write the name of the file you wish to see, make sure to write it correctly. Do not include the file type\n")
+        try:
+            with open(f"./lyrics_library/{wanted_lyrics}.txt", "w") as user_lyrics:
+                user_lyrics.write(translated_text)
+            with open(f"./lyrics_library/{wanted_lyrics}.txt", "r") as user_lyrics:
+                print("Here are your translated lyrics:\n")
+                print(user_lyrics.read())
+            input("Type anything when you are ready to go back to the menu.\n")
+        except FileNotFoundError:
+            input("Cannot find the file, make sure you wrote it correctly. You will be sent back to the menu.")
+
+def translate_live():
+    artist_name, song_name, artist_link = get_artist_json()
+    lyrics = get_lyrics(artist_name, song_name)
+    destination_language = user_ask_language()
+    target_language_code = get_language_code(destination_language)
+    translated_text = translate_text(text_to_translate, target_language_code)
+    with open(f"./lyrics_library/{artist_name.capitalize()}-{song_name.capitalize()}.txt", "w") as translated_lyrics:
+        json.dump(translated_text, translated_lyrics)
+
+    print(f"Here are your translated lyrics!\n{translated_text}")
+
+    input("Type anything when you are done\n")
 
 if __name__ == "__main__":
     main()
