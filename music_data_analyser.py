@@ -90,7 +90,7 @@ def analytics_menu(artist_id):
             
             if choice == 1:
                 print("\nDisplaying top 5 most-listened (by popularity) songs...\n")
-                top_tracks = artist_top_tracks(artist_id)
+                top_tracks = fetch_artist_top_tracks(artist_id)
                 if top_tracks:
                     for index, track in enumerate(top_tracks[:5], 1):
                         track_name = track.get('name', 'Unknown Track')
@@ -102,7 +102,7 @@ def analytics_menu(artist_id):
 
             elif choice == 2:
                 print("\nDisplaying total number of followers...\n")
-                artist = artist_info(artist_id)
+                artist = fetch_artist_info(artist_id)
                 if artist:
                     followers = artist.get('followers', {}).get('total', 'Unknown Followers')
                     print(f"Artist has {followers:,} followers.\n")
@@ -111,7 +111,7 @@ def analytics_menu(artist_id):
 
             elif choice == 3:
                 print("\nDisplaying artist popularity...\n")
-                artist = artist_info(artist_id)
+                artist = fetch_artist_info(artist_id)
                 if artist:
                     popularity = artist.get('popularity', 'Unknown Popularity')
                     print(f"Artist popularity: {popularity}")
@@ -123,7 +123,7 @@ def analytics_menu(artist_id):
                 print("\nCompare with another artist...\n")
                 second_artist_link = input("Enter the other artist's Spotify link: ")
                 other_artist_id = get_id(second_artist_link)
-                compare_artists(artist_id, other_artist_id)
+                fetch_artists_comparison(artist_id, other_artist_id)
 
                 print()
             elif choice == 5:
